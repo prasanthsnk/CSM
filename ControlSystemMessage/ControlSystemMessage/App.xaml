@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ControlSystemMessage.App">
+	<Application.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="MainPageTemplate">
+
+                <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Begin Header -->
+                    <StackLayout
+            Orientation="Vertical"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            Spacing="0"
+            BackgroundColor="#2B2B2B"
+            HeightRequest="60"
+            Grid.Column="0" Grid.Row="0">
+                        <StackLayout.Padding>
+                            <OnPlatform x:TypeArguments="Thickness"
+                            iOS="10, 10, 10, 10"
+                            Android="10, 10, 10, 10"
+                            WinPhone="10, 10, 10, 10" />
+                        </StackLayout.Padding>
+                        <!-- My header content to make my app the prettiest. -->
+                        <SearchBar Grid.Row="0"  CancelButtonColor="#000000" PlaceholderColor="#000000"  Placeholder="search"  VerticalOptions="Center" />
+
+                    </StackLayout>
+                    <!-- End Header -->
+
+                    <!-- Begin Content -->
+                    <ScrollView Grid.Column="0" Grid.Row="1">
+                        <ContentPresenter VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+                    </ScrollView>
+                    <!-- End Content -->
+                </Grid>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<controls:TabbedSearchPage
+    xmlns:controls="clr-namespace:ControlSystemMessage.Views.Controls"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            xmlns:views="clr-namespace:ControlSystemMessage.Views"
+            android:TabbedPage.ToolbarPlacement="Bottom"
+    SearchPlaceHolderText="Type here to search"
+             x:Class="ControlSystemMessage.Views.DashboardPage">
+    <views:SourceListPage  Title="Home" Icon="region.png"/>
+    <views:MessageListPage  Title="Notification"  Icon="notification.png"/>
+    <views:MessageListPage  Title="Saved Messages"  Icon="notification.png"/>
+    <!--<TabbedPage.Children>
+    <NavigationPage  Title="Home" Icon="region.png">
+        <x:Arguments>
+                <views:SourceListPage  Title="Home" Icon="region.png"/>
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Notification" Icon="notification.png">
+        <x:Arguments>
+                <views:MessageListPage  Title="Notification"  Icon="notification.png"/>
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Saved Messages" Icon="notification.png">
+        <x:Arguments>
+                <views:MessageListPage  Title="Saved Messages"  Icon="notification.png"/>
+        </x:Arguments>
+    </NavigationPage>
+    </TabbedPage.Children>-->
+</controls:TabbedSearchPage>

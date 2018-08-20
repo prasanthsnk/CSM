@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "210644049593",
+    "firebase_url": "https://controlsystemmessage.firebaseio.com",
+    "project_id": "controlsystemmessage",
+    "storage_bucket": "controlsystemmessage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210644049593:android:9bc92fdd897daa9d",
+        "android_client_info": {
+          "package_name": "com.utthunga.ControlSystemMessage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210644049593-m84t0tmq46h1kdi6da4n4bdpjtfpumg9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgyW_zCRirwhZN-UjzTDk2XnxdpHqUCMU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
