@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    xmlns="http://xamarin.com/schemas/2014/forms" 
-		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Message List"
-    x:Class="ControlSystemMessage.Views.MessageListPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ControlSystemMessage.Views.SavedMessagePage">
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="chatList" HasUnevenRows="True"
@@ -29,8 +27,8 @@
                                             <Label TextColor="Gray" Text="Source" FontSize="Micro"/>
                                             <Label TextColor="Black" Text="{Binding Source}" FontAttributes="Bold"  FontSize="Small" />
                                         </StackLayout>
-                                        <Button Grid.Column="1"  BackgroundColor="Transparent" Command="{Binding Path=BindingContext.SaveCommand, Source = {x:Reference chatList}}" CommandParameter="{Binding}"
-                                                Image="save.png" WidthRequest="30" HeightRequest="30" VerticalOptions="EndAndExpand" IsVisible="{Binding IsSaved}"/>
+                                        <Button Grid.Column="1"  BackgroundColor="Transparent" Command="{Binding Path=BindingContext.UnSaveCommand, Source = {x:Reference chatList}}" CommandParameter="{Binding}"
+                                                Image="save.png" WidthRequest="30" HeightRequest="30" VerticalOptions="EndAndExpand"/>
                                     </Grid>
                                     <Label TextColor="Gray" Text="Plant Area" FontSize="Micro"  Margin="0,15,0,0"/>
                                     <Label TextColor="Black" Text="{Binding Area}" FontAttributes="Bold"  FontSize="Small" />

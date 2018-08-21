@@ -1,7 +1,9 @@
-﻿using SQLite;
+﻿ using SQLite;
+using System.Windows.Input;
 
 namespace ControlSystemMessage.Models
 {
+    [Table("Messages")]
     public class Messages
     {
         [PrimaryKey, AutoIncrement]
@@ -21,6 +23,6 @@ namespace ControlSystemMessage.Models
         public string MessageszMessage { get; set; }
         public int IsRead { get; set; }
         public int bAckRequired { get; set; }
-        public int Count { get; set; }
+        public int IsImportant { get; set; }
     }
 }

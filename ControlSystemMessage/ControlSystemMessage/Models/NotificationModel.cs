@@ -6,10 +6,17 @@ namespace ControlSystemMessage.Models
     {
         public string to { get; set; }
         public string Area { get; set; }
-        public Data data { get; set; }
-        public Notification notification { get; set; }
+        public MData mData { get; set; }
+        public MNotification mNotification { get; set; }
+
+        public string data { get; set; }
+        public string notification { get; set; }
+
+        public string body { get; set; }
+        public string title { get; set; }
+
     }
-    public class Data
+    public class MData
     {
         public int wChangeMask { get; set; }
         public int wNewState { get; set; }
@@ -30,7 +37,7 @@ namespace ControlSystemMessage.Models
 
    
 
-    public class Notification
+    public class MNotification
     {
         public string title { get; set; }
         public string text { get; set; }

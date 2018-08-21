@@ -33,10 +33,10 @@ namespace ControlSystemMessage.Data
 
         //return database.QueryAsync<ChatModel>("SELECT * FROM [ChatModel] WHERE [Region] = '" + region + "' AND [IsRead] = 0");
 
-        public Task<int> UpdateIsRead(string region)
-        {
-            return database.ExecuteAsync("UPDATE [ChatModel] SET [IsRead] = 1 WHERE [Region] = '" + region + "'");
-        }
+        //public Task<int> UpdateIsRead(string region)
+        //{
+        //    return database.ExecuteAsync("UPDATE [ChatModel] SET [IsRead] = 1 WHERE [Region] = '" + region + "'");
+        //}
         public Task<ChatModel> GetItemAsync(int id)
         {
             return database.Table<ChatModel>().Where(i => i.ID == id).FirstOrDefaultAsync();
@@ -61,9 +61,9 @@ namespace ControlSystemMessage.Data
 
         ///
 
-        public Task<List<Messages>> GetMessagesByQuery(string query)
+        public Task<List<MessagesModel>> GetMessagesByQuery(string query)
         {
-            return database.QueryAsync<Messages>(query);
+            return database.QueryAsync<MessagesModel>(query);
         }
         public Task<int> SaveMessage(Messages item)
         {
@@ -75,6 +75,10 @@ namespace ControlSystemMessage.Data
             {
                 return database.InsertAsync(item);
             }
+        }
+        public Task<int> UpdateIsRead(string region)
+        {
+            return database.ExecuteAsync("UPDATE [Messages] SET [IsRead] = 1 ");
         }
     }
 }

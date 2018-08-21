@@ -20,7 +20,7 @@ namespace ControlSystemMessage
             //MainPage = new MainPage();
             //MainPage = new DemoPage();
             //MainPage =  new DashboardPage();
-          //  save();
+           // save();
             MainPage = new CustomNavigationPage(new DashboardPage());
         }
 
@@ -128,7 +128,11 @@ namespace ControlSystemMessage
                 System.Diagnostics.Debug.WriteLine("Received");
                 System.Diagnostics.Debug.WriteLine($"{p.Data}");
 
-                ChatModel someObject = ObjectExtensions.ToObject<ChatModel>(p.Data);
+                NotificationModel someObject = ObjectExtensions.ToObject<NotificationModel>(p.Data);
+                MData data = Newtonsoft.Json.JsonConvert.DeserializeObject<MData>(someObject.data);
+                MNotification notification = Newtonsoft.Json.JsonConvert.DeserializeObject<MNotification>(someObject.notification);
+                someObject.mData = data;
+                someObject.mNotification = notification;
                 SaveAsync(someObject);
             };
 
@@ -158,20 +162,41 @@ namespace ControlSystemMessage
             }
         }
 
-        private async void SaveAsync(ChatModel msg)
+        private async void SaveAsync(NotificationModel msg)
         {
-            var Chat = new ChatModel
+            var Message = new Messages
             {
-                Message = msg.body,
-                Type = 2,
-                body = msg.body,
-                title = msg.title,
-                ImageUrl = msg.ImageUrl,
-                Region = msg.Region,
+
+                Source = msg.to,
+                Area = msg.Area,
+                Title = msg.title,
+                NotificationText = msg.mNotification.text,
+                wChangeMask = msg.mData.wChangeMask + "",
+                wNewState = msg.mData.wNewState + "",
+                ftTime = msg.mData.ftTime,
+                szMessage = msg.mData.szMessage,
+                dwEventType = msg.mData.dwEventType + "",
+                dwSeverity = msg.mData.dwSeverity + "",
+                szConditionName = msg.mData.szConditionName,
+                wQuality = msg.mData.wQuality + "",
+                //MessageszMessage = msg.mData.message.szMessage,
+                bAckRequired = msg.mData.bAckRequired ? 1 : 0
             };
 
-            int id = await App.Database.SaveItemAsync(Chat);
+            int id = await App.Database.SaveMessage(Message);
             var CurrentPage = (App.Current.MainPage as NavigationPage).CurrentPage;
+            if (CurrentPage is DashboardPage)
+            {
+                (CurrentPage as DashboardPage).UpdateUiAsync("");
+            }
+            else if (CurrentPage is MessageListPage)
+            {
+                (CurrentPage as MessageListPage).SearchText("");
+            }
+            else if (CurrentPage is DetailedListPage)
+            {
+                (CurrentPage as DetailedListPage).Search("");
+            }
         }
 
         protected override void OnSleep ()

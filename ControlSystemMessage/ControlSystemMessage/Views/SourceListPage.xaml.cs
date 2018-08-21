@@ -17,27 +17,35 @@ namespace ControlSystemMessage.Views
         {
             InitializeComponent();
             messagesViewModel = new MessagesViewModel();
-            LoadData("");
             this.BindingContext = messagesViewModel;
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            LoadData("");
         }
         private async void LoadData(string SearchText)
         {
             if (selectedArea == null) { 
-            List<Messages> lstAreas = await App.Database.GetMessagesByQuery("SELECT Area from Messages  GROUP BY Area");
+            List<MessagesModel> lstAreas = await App.Database.GetMessagesByQuery("SELECT Area from Messages  GROUP BY Area");
             List<string> areas = new List<string>();
-            foreach (Messages msg in lstAreas)
+            foreach (MessagesModel msg in lstAreas)
             {
                 areas.Add(msg.Area);
             }
             messagesViewModel.Area = areas;
 
-            if (lstAreas.Count > 0) {
-                selectedArea = lstAreas[0].Area;
+            //if (lstAreas.Count > 0) {
+            //    selectedArea = lstAreas[0].Area;
+            //}
             }
+            string query = "SELECT msg.* , (Select count(*) from Messages Where Source = msg.Source And Area = msg.Area And IsRead =0) as count from Messages as msg Where (Source LIKE '" + SearchText + "%'  OR NotificationText like '%"+SearchText+"%') GROUP BY Area , Source";
+            if (selectedArea != null) {
+                query = "SELECT msg.* , (Select count(*) from Messages Where Source = msg.Source And Area = msg.Area And IsRead =0) as count from Messages as msg Where Area ='" + selectedArea + "' And (Source LIKE '" + SearchText + "%' OR NotificationText like '%"+SearchText+"%') GROUP BY Source";
             }
  
-            List<Messages> lstMsgs = await App.Database.GetMessagesByQuery("SELECT msg.* , (Select count(*) from Messages Where Source = msg.Source And Area = msg.Area And IsRead =0) as count from Messages as msg Where Area ='" + selectedArea + "' And Source LIKE '" + SearchText + "%' GROUP BY Source");
-            messagesViewModel.MsgList = new ObservableCollection<Messages>(lstMsgs);
+            List<MessagesModel> lstMsgs = await App.Database.GetMessagesByQuery(query);
+            messagesViewModel.MsgList = new ObservableCollection<MessagesModel>(lstMsgs);
         }
         private void OnSelectedIndexChanged(object sender, EventArgs e)
         {

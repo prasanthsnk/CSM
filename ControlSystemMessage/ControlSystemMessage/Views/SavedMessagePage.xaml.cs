@@ -1,23 +1,21 @@
 ﻿using ControlSystemMessage.Models;
 using ControlSystemMessage.ViewModels;
-using ControlSystemMessage.Views.Controls;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace ControlSystemMessage.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class DetailedListPage : SearchPage
-	{
+	public partial class SavedMessagePage : ContentPage
+    {
         MessagesViewModel messagesViewModel;
-        private string Source, Area;
-        public DetailedListPage(string Source, string Area)
+
+        public SavedMessagePage()
         {
             InitializeComponent();
-            this.Source = Source;
-            this.Area = Area;
             messagesViewModel = new MessagesViewModel();
             this.BindingContext = messagesViewModel;
         }
@@ -26,10 +24,11 @@ namespace ControlSystemMessage.Views
             base.OnAppearing();
             LoadData("");
         }
+
         private async void LoadData(string Search)
         {
-            List<MessagesModel> listMsgs = await App.Database.GetMessagesByQuery("SELECT * from Messages Where Area = '" + Area + "' AND Source = '" + Source + "' AND (Source Like '" + Search + "%'  OR NotificationText like '%" + Search + "%')");
-            messagesViewModel.MsgList = new ObservableCollection<MessagesModel>(listMsgs);
+            List<MessagesModel> lstMsg = await App.Database.GetMessagesByQuery("SELECT * from Messages Where IsImportant = '1' And (Source Like '" + Search + "%'  OR NotificationText like '%" + Search + "%')");
+            messagesViewModel.MsgList = new ObservableCollection<MessagesModel>(lstMsg);
         }
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -38,7 +37,7 @@ namespace ControlSystemMessage.Views
                 ((ListView)sender).SelectedItem = null;
             }
         }
-        public void Search(string Text)
+        public void SearchText(string Text)
         {
             LoadData(Text);
         }
