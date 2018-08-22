@@ -1,4 +1,5 @@
 ﻿using ControlSystemMessage.Views.Controls;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,10 +12,11 @@ namespace ControlSystemMessage.Views
         public DashboardPage ()
         {
             InitializeComponent();
+            Load();
         }
-        protected override void OnAppearing()
+        private async void Load()
         {
-            base.OnAppearing();
+            await Task.Delay(1000);
             if (!IsShown) {
                 ShowSearch = true;
                 IsShown = false;

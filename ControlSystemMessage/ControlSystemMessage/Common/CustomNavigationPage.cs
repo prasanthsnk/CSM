@@ -21,6 +21,11 @@ namespace ControlSystemMessage.Common
                 {
                     (this.CurrentPage as TabbedSearchPage).ShowSearch = true;
                 }
+                else if ((this.CurrentPage is SearchPage))
+                {
+                    (this.CurrentPage as SearchPage).ShowSearch = true;
+                }
+
             }
         }
 

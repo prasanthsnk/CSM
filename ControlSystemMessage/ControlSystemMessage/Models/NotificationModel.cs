@@ -11,9 +11,12 @@ namespace ControlSystemMessage.Models
 
         public string data { get; set; }
         public string notification { get; set; }
+        public string sound { get; set; }
 
         public string body { get; set; }
         public string title { get; set; }
+        public string message { get; set; }
+        public Message mMessage { get; set; }
 
     }
     public class MData

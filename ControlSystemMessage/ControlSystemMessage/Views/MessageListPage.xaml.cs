@@ -32,19 +32,15 @@ namespace ControlSystemMessage.Views
         }
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            if (e.SelectedItem != null)
+            if (e.SelectedItem is MessagesModel item)
             {
+                Navigation.PushAsync(new DetailPage(item));
                 ((ListView)sender).SelectedItem = null;
             }
         }
         public void SearchText(string Text)
         {
             LoadData(Text);
-        }
-        public void OnClickSave(object sender)
-        {
-            var item = (Xamarin.Forms.Button)sender;
-           
         }
     }
 }

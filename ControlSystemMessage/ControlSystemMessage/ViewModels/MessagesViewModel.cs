@@ -50,6 +50,7 @@ namespace ControlSystemMessage.ViewModels
             {
                     msgList = value;
                     NotifyPropertyChanged("MsgList");
+                    NotifyPropertyChanged("IsShowError");
             }
         }
         public Command<object> SaveCommand { get; set; }
@@ -64,8 +65,7 @@ namespace ControlSystemMessage.ViewModels
         }
         private async void Update(object obj ,int save ) {
             Messages message = (Messages)obj;
-            message.IsImportant = save;
-            await App.Database.SaveMessage(message);
+            await App.Database.UpdateSingleColumnById("IsImportant",save+"",message.ID);
             DependencyService.Get<IAlert>().ShortAlert(save == 1 ? "Messages Saved" : "Messages UnSave");
             var CurrentPage = (App.Current.MainPage as NavigationPage).CurrentPage;
             if (CurrentPage is DashboardPage)
@@ -81,5 +81,6 @@ namespace ControlSystemMessage.ViewModels
                 (CurrentPage as DetailedListPage).Search("");
             }
         }
+        public bool IsShowError => MsgList==null || MsgList.Count == 0 ;
     }
 }

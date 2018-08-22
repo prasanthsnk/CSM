@@ -80,5 +80,9 @@ namespace ControlSystemMessage.Data
         {
             return database.ExecuteAsync("UPDATE [Messages] SET [IsRead] = 1 ");
         }
+        public Task<int> UpdateSingleColumnById(string Column, string Value, int id)
+        {
+            return database.ExecuteAsync("UPDATE [Messages] SET [" + Column + "] =  '" + Value + "' Where [ID] = " + id);
+        }
     }
 }

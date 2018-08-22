@@ -8,7 +8,20 @@ namespace ControlSystemMessage.Views.Controls
         public static readonly BindableProperty SearchPlaceHolderTextProperty = BindableProperty.Create(nameof(SearchPlaceHolderText), typeof(string), typeof(SearchPage), string.Empty);
         public static readonly BindableProperty SearchTextProperty = BindableProperty.Create(nameof(SearchText), typeof(string), typeof(SearchPage), string.Empty);
         public static readonly BindableProperty SearchCommandProperty = BindableProperty.Create(nameof(SearchCommand), typeof(ICommand), typeof(SearchPage));
+        public static readonly BindableProperty ShowSearchProperty = BindableProperty.Create(nameof(ShowSearch), typeof(bool), typeof(SearchPage), true);
 
+        public bool ShowSearch
+        {
+            get
+            {
+                return (bool)GetValue(ShowSearchProperty);
+            }
+            set
+            {
+                SetValue(ShowSearchProperty, value);
+                OnPropertyChanged("Page");
+            }
+        }
         public string SearchPlaceHolderText
         {
             get

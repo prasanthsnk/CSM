@@ -6,6 +6,7 @@
     x:Class="ControlSystemMessage.Views.MessageListPage">
     <ContentPage.Content>
         <StackLayout>
+            <Label Margin="20" FontAttributes="Bold" FontSize="Large" Text="No New Notifications" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsShowError}"/>
             <ListView x:Name="chatList" HasUnevenRows="True"
                            ItemsSource="{Binding MsgList}"
                       ItemSelected="OnItemSelected">

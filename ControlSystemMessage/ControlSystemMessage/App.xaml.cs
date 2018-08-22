@@ -131,8 +131,11 @@ namespace ControlSystemMessage
                 NotificationModel someObject = ObjectExtensions.ToObject<NotificationModel>(p.Data);
                 MData data = Newtonsoft.Json.JsonConvert.DeserializeObject<MData>(someObject.data);
                 MNotification notification = Newtonsoft.Json.JsonConvert.DeserializeObject<MNotification>(someObject.notification);
+                 Message message = Newtonsoft.Json.JsonConvert.DeserializeObject<Message>(someObject.message);
+
                 someObject.mData = data;
                 someObject.mNotification = notification;
+                someObject.mMessage = message;
                 SaveAsync(someObject);
             };
 

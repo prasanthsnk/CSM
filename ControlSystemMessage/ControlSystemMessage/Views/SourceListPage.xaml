@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms" 
-		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:ControlSystemMessage.Views.Controls"
     Title="Message List"
     x:Class="ControlSystemMessage.Views.SourceListPage">
     <ContentPage.Content>
@@ -14,17 +15,18 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" Grid.Column="0">
-                        <Label Text="System"/>
-                        <Picker ItemsSource="{Binding System}"/>
+                        <Label Text="System" TextColor="White"/>
+                        <controls:CustomPicker x:Name="SystemPicker" ItemsSource="{Binding System}" SelectedIndex="0" TextColor="White" BackgroundColor="Transparent"/>
                     </StackLayout>
                     <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Grid.Column="1"/>
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"  Grid.Column="2">
-                        <Label Text="Plant Area"/>
-                        <Picker ItemsSource="{Binding Area}" SelectedIndexChanged="OnSelectedIndexChanged"/>
+                        <Label Text="Plant Area" TextColor="White"/>
+                        <controls:CustomPicker x:Name="AreaPicker" ItemsSource="{Binding Area}" TextColor="White" SelectedIndexChanged="OnSelectedIndexChanged" SelectedIndex="0"/>
                     </StackLayout>
                 </Grid>
                 
             </StackLayout>
+            <Label Margin="20" FontAttributes="Bold" FontSize="Large" Text="No Messages" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsShowError}"/>
             <ListView x:Name="chatList" HasUnevenRows="True"
                            ItemsSource="{Binding MsgList}" ItemSelected="OnItemSelected">
                 <ListView.ItemTemplate>

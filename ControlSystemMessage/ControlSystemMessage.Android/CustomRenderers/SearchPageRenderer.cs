@@ -7,6 +7,7 @@ using SearchView = Android.Support.V7.Widget.SearchView;
 using ControlSystemMessage.Droid.CustomRenderers;
 using ControlSystemMessage.Views.Controls;
 using Android.Content;
+using System.ComponentModel;
 
 [assembly: ExportRenderer(typeof(SearchPage), typeof(SearchPageRenderer))]
 namespace ControlSystemMessage.Droid.CustomRenderers
@@ -29,6 +30,20 @@ namespace ControlSystemMessage.Droid.CustomRenderers
             }
 
             AddSearchToToolBar();
+        }
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+            base.OnElementPropertyChanged(sender, e);
+            if (e.PropertyName == nameof(Page))
+            {
+                var maintoolbar = MainActivity.ToolBar;
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(delegate
+                {
+                    maintoolbar.Menu?.RemoveItem(Resource.Menu.mainmenu);
+                    AddSearchToToolBar();
+                });
+            }
         }
 
         protected override void Dispose(bool disposing)
