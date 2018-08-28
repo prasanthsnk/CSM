@@ -2,8 +2,12 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Util;
 using Android.Views;
-using Plugin.FirebasePushNotification;
+using ControlSystemMessage.Models;
+using Firebase.Iid;
+using Firebase.Messaging;
+using Xamarin.Forms;
 
 namespace ControlSystemMessage.Droid
 {
@@ -26,18 +30,27 @@ namespace ControlSystemMessage.Droid
             {
                 SetSupportActionBar(ToolBar);
             }
-            FirebasePushNotificationManager.ProcessIntent(this, Intent);
+            CreateNotificationChannel();
         }
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
-            FirebasePushNotificationManager.ProcessIntent(this, intent);
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             ToolBar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             return base.OnCreateOptionsMenu(menu);
+        }
+        protected override void OnResume()
+        {
+            base.OnResume();
+            var Tocken = FirebaseInstanceId.Instance.Token;
+        }
+        void CreateNotificationChannel()
+        {
+            FirebaseMessaging.Instance.SubscribeToTopic("csmessage");
+
         }
     }
 }

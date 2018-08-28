@@ -17,7 +17,7 @@
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="30*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image   Source="xamarin.png" Margin="0, 5, 0, 0"  VerticalOptions="Start"  HeightRequest="20"/>
+                                <Image   Source="motor.png" Margin="0, 5, 0, 0"  VerticalOptions="Start"  HeightRequest="20"/>
                                 <StackLayout Grid.Column="1"   VerticalOptions="Start" Spacing="0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -29,7 +29,7 @@
                                             <Label TextColor="Black" Text="{Binding Source}" FontAttributes="{Binding FontStyle}"  FontSize="Small" />
                                         </StackLayout>
                                         <Button Grid.Column="1"  BackgroundColor="Transparent" Command="{Binding Path=BindingContext.UnSaveCommand, Source = {x:Reference chatList}}" CommandParameter="{Binding}"
-                                                Image="save.png" WidthRequest="30" HeightRequest="30" VerticalOptions="EndAndExpand"/>
+                                                Image="delete.png" WidthRequest="30" HeightRequest="30" VerticalOptions="EndAndExpand"/>
                                     </Grid>
                                     <Label TextColor="Gray" Text="Plant Area" FontSize="Micro"  Margin="0,15,0,0"/>
                                     <Label TextColor="Black" Text="{Binding Area}" FontAttributes="{Binding FontStyle}"  FontSize="Small" />

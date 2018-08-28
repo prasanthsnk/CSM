@@ -2,7 +2,6 @@ using ControlSystemMessage.Common;
 using ControlSystemMessage.Data;
 using ControlSystemMessage.Models;
 using ControlSystemMessage.Views;
-using Plugin.FirebasePushNotification;
 using System;
 using System.IO;
 using Xamarin.Forms;
@@ -13,14 +12,16 @@ namespace ControlSystemMessage
 {
     public partial class App : Application
     {
-        static ChatItemDatabase database;
+        public static ChatItemDatabase database;
+        public static App AppInstance;
         public App()
         {
             InitializeComponent();
             //MainPage = new MainPage();
             //MainPage = new DemoPage();
             //MainPage =  new DashboardPage();
-           // save();
+            // save();
+            AppInstance = this;
             MainPage = new CustomNavigationPage(new DashboardPage());
         }
 
@@ -117,39 +118,44 @@ namespace ControlSystemMessage
         protected override void OnStart()
         {
             // Handle when your app starts
-            CrossFirebasePushNotification.Current.OnTokenRefresh += (s, p) =>
-            {
-                System.Diagnostics.Debug.WriteLine($"TOKEN REC: {p.Token}");
-            };
-            System.Diagnostics.Debug.WriteLine($"TOKEN: {CrossFirebasePushNotification.Current.Token}");
+            MessagingCenter.Subscribe<App>(this, "FCM", (sender) => {
+                // do something whenever the "Hi" message is sent
+                UpdateUi();
+            });
 
-            CrossFirebasePushNotification.Current.OnNotificationReceived += (s, p) =>
-            {
-                System.Diagnostics.Debug.WriteLine("Received");
-                System.Diagnostics.Debug.WriteLine($"{p.Data}");
+            //CrossFirebasePushNotification.Current.OnTokenRefresh += (s, p) =>
+            //{
+            //    System.Diagnostics.Debug.WriteLine($"TOKEN REC: {p.Token}");
+            //};
+            //System.Diagnostics.Debug.WriteLine($"TOKEN: {CrossFirebasePushNotification.Current.Token}");
 
-                NotificationModel someObject = ObjectExtensions.ToObject<NotificationModel>(p.Data);
-                MData data = Newtonsoft.Json.JsonConvert.DeserializeObject<MData>(someObject.data);
-                MNotification notification = Newtonsoft.Json.JsonConvert.DeserializeObject<MNotification>(someObject.notification);
-                 Message message = Newtonsoft.Json.JsonConvert.DeserializeObject<Message>(someObject.message);
+            //CrossFirebasePushNotification.Current.OnNotificationReceived += (s, p) =>
+            //{
+            //    System.Diagnostics.Debug.WriteLine("Received");
+            //    System.Diagnostics.Debug.WriteLine($"{p.Data}");
 
-                someObject.mData = data;
-                someObject.mNotification = notification;
-                someObject.mMessage = message;
-                SaveAsync(someObject);
-            };
+            //    NotificationModel someObject = ObjectExtensions.ToObject<NotificationModel>(p.Data);
+            //    MData data = Newtonsoft.Json.JsonConvert.DeserializeObject<MData>(someObject.data);
+            //    MNotification notification = Newtonsoft.Json.JsonConvert.DeserializeObject<MNotification>(someObject.notification);
+            //    // Message message = Newtonsoft.Json.JsonConvert.DeserializeObject<Message>(someObject.message);
 
-            CrossFirebasePushNotification.Current.OnNotificationOpened += (s, p) =>
-            {
-                //System.Diagnostics.Debug.WriteLine(p.Identifier);
+            //    someObject.mData = data;
+            //    someObject.mNotification = notification;
+            //    //someObject.mMessage = message;
+            //    SaveAsync(someObject);
+            //};
 
-                System.Diagnostics.Debug.WriteLine("Opened");
-                System.Diagnostics.Debug.WriteLine($"{p.Data}");
-            };
-            CrossFirebasePushNotification.Current.OnNotificationDeleted += (s, p) =>
-            {
-                System.Diagnostics.Debug.WriteLine("Dismissed");
-            };
+            //CrossFirebasePushNotification.Current.OnNotificationOpened += (s, p) =>
+            //{
+            //    //System.Diagnostics.Debug.WriteLine(p.Identifier);
+
+            //    System.Diagnostics.Debug.WriteLine("Opened");
+            //    System.Diagnostics.Debug.WriteLine($"{p.Data}");
+            //};
+            //CrossFirebasePushNotification.Current.OnNotificationDeleted += (s, p) =>
+            //{
+            //    System.Diagnostics.Debug.WriteLine("Dismissed");
+            //};
 
         }
 
@@ -164,7 +170,22 @@ namespace ControlSystemMessage
                 return database;
             }
         }
-
+        private void UpdateUi()
+        {
+            var CurrentPage = (App.Current.MainPage as NavigationPage).CurrentPage;
+            if (CurrentPage is DashboardPage)
+            {
+                (CurrentPage as DashboardPage).UpdateUiAsync("");
+            }
+            else if (CurrentPage is MessageListPage)
+            {
+                (CurrentPage as MessageListPage).SearchText("");
+            }
+            else if (CurrentPage is DetailedListPage)
+            {
+                (CurrentPage as DetailedListPage).Search("");
+            }
+        }
         private async void SaveAsync(NotificationModel msg)
         {
             var Message = new Messages

@@ -1,4 +1,5 @@
-﻿using ControlSystemMessage.Models;
+﻿using ControlSystemMessage.Common;
+using ControlSystemMessage.Models;
 using ControlSystemMessage.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,8 @@ namespace ControlSystemMessage.Views
 	public partial class SourceListPage : ContentPage
 	{
         private MessagesViewModel messagesViewModel;
-        private string selectedArea;
+        private string selectedArea = "", selectedSystem = "";
+        private bool flagSelected = false;
         public SourceListPage()
         {
             InitializeComponent();
@@ -26,11 +28,21 @@ namespace ControlSystemMessage.Views
         }
         private async void LoadData(string SearchText)
         {
-            if (selectedArea == null) {
-                List<MessagesModel> lstAreas = await App.Database.GetMessagesByQuery("SELECT Area from Messages  GROUP BY Area");
+            string source = selectedSystem.Equals(Constants.SELECT_SYSTEM) ? "" : selectedSystem;
+            string area = selectedArea.Equals(Constants.SELECT_PLANT_AREA) ? "" : selectedArea;
+            string query = "SELECT msg.* , (Select count(*) from Messages Where Source = msg.Source And Area = msg.Area And IsRead =0) as count from Messages as msg Where (Source LIKE '" + SearchText + "%'  OR NotificationText like '%" + SearchText + "%') "
+                + "And Source " + (source.Equals("") ? "LIKE '%" + source + "%'" : " = '" + source + "'") + " And Area " + (area.Equals("") ? "LIKE '%" + area + "%'" : " = '" + area + "'") + " GROUP BY Area , Source";
+            
+ 
+            List<MessagesModel> lstMsgs = await App.Database.GetMessagesByQuery(query);
+            messagesViewModel.MsgList = new ObservableCollection<MessagesModel>(lstMsgs);
+
+            if (selectedArea .Equals(""))
+            {
+                List<MessagesModel> lstAreas = await App.Database.GetMessagesByQuery(Constants.QRY_AREAS);
                 List<string> areas = new List<string>
                 {
-                    "Select"
+                    Constants.SELECT_PLANT_AREA
                 };
                 foreach (MessagesModel msg in lstAreas)
                 {
@@ -38,31 +50,36 @@ namespace ControlSystemMessage.Views
                 }
                 messagesViewModel.Area = areas;
 
+                List<MessagesModel> lstSystems = await App.Database.GetMessagesByQuery(Constants.QRY_AREAS);
+
                 List<string> System = new List<string>
                 {
-                    "Select"
+                   Constants.SELECT_SYSTEM
                 };
+                foreach (MessagesModel msg in lstSystems)
+                {
+                    System.Add(msg.Source);
+                }
                 messagesViewModel.System = System;
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    AreaPicker.SelectedIndex = 0;
-                    SystemPicker.SelectedIndex = 0;
+                    if (!flagSelected && messagesViewModel.System.Count > 0
+                    && messagesViewModel.Area.Count > 0)
+                    {
+                        AreaPicker.SelectedIndex = 0;
+                        SystemPicker.SelectedIndex = 0;
+                        flagSelected = true;
+                    }
                 });
-                
-            //if (lstAreas.Count > 0) {
-            //    selectedArea = lstAreas[0].Area;
-            //}
+
+                //if (lstAreas.Count > 0) {
+                //    selectedArea = lstAreas[0].Area;
+                //}
             }
-            string query = "SELECT msg.* , (Select count(*) from Messages Where Source = msg.Source And Area = msg.Area And IsRead =0) as count from Messages as msg Where (Source LIKE '" + SearchText + "%'  OR NotificationText like '%"+SearchText+"%') GROUP BY Area , Source";
-            if (selectedArea != null && !selectedArea.Equals("Select")) {
-                query = "SELECT msg.* , (Select count(*) from Messages Where Source = msg.Source And Area = msg.Area And IsRead =0) as count from Messages as msg Where Area ='" + selectedArea + "' And (Source LIKE '" + SearchText + "%' OR NotificationText like '%"+SearchText+"%') GROUP BY Source";
-            }
- 
-            List<MessagesModel> lstMsgs = await App.Database.GetMessagesByQuery(query);
-            messagesViewModel.MsgList = new ObservableCollection<MessagesModel>(lstMsgs);
+
         }
-        private void OnSelectedIndexChanged(object sender, EventArgs e)
+        private void OnSelectedIndexChangedArea(object sender, EventArgs e)
         {
             var picker = sender as Picker;
             var SelectedIndex = picker.SelectedIndex;
@@ -72,6 +89,17 @@ namespace ControlSystemMessage.Views
                 LoadData("");
             }
             
+        }
+        private void OnSelectedIndexChangedSystem(object sender, EventArgs e)
+        {
+            var picker = sender as Picker;
+            var SelectedIndex = picker.SelectedIndex;
+            if (SelectedIndex != -1)
+            {
+                selectedSystem = picker.Items[SelectedIndex];
+                LoadData("");
+            }
+
         }
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {

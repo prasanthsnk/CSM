@@ -1,7 +1,8 @@
 ﻿using System;
+using System.IO;
 using Android.App;
 using Android.Runtime;
-using Plugin.FirebasePushNotification;
+using ControlSystemMessage.Data;
 
 namespace ControlSystemMessage.Droid
 {
@@ -17,17 +18,17 @@ namespace ControlSystemMessage.Droid
             base.OnCreate();
 
             //If debug you should reset the token each time.
-#if DEBUG
-            FirebasePushNotificationManager.Initialize(this, true);
-#else
-            FirebasePushNotificationManager.Initialize(this, false);
-#endif
+//#if DEBUG
+//            FirebasePushNotificationManager.Initialize(this, true);
+//#else
+  //          FirebasePushNotificationManager.Initialize(this, false);
+//#endif
             //Handle notification when app is closed here
-            CrossFirebasePushNotification.Current.OnNotificationReceived += (s, p) =>
-            {
+            //CrossFirebasePushNotification.Current.OnNotificationReceived += (s, p) =>
+            //{
 
 
-            };
+            //};
         }
     }
 }

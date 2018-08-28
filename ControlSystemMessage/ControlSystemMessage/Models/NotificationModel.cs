@@ -9,13 +9,13 @@ namespace ControlSystemMessage.Models
         public MData mData { get; set; }
         public MNotification mNotification { get; set; }
 
-        public string data { get; set; }
-        public string notification { get; set; }
+        public MData data { get; set; }
+        public MNotification notification { get; set; }
         public string sound { get; set; }
 
         public string body { get; set; }
         public string title { get; set; }
-        public string message { get; set; }
+        public Message message { get; set; }
         public Message mMessage { get; set; }
 
     }

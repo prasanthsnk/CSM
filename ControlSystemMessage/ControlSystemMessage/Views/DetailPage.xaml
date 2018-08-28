@@ -4,7 +4,7 @@
              x:Class="ControlSystemMessage.Views.DetailPage"
              Title="Details">
     <ContentPage.Content>
-        <StackLayout Padding="10">
+        <StackLayout Padding="15">
             <Label TextColor="Gray" Text="Plant Area" FontSize="Small"  Margin="0,15,0,0"/>
             <Label TextColor="Black" Text="{Binding Area}" FontAttributes="Bold"  FontSize="Small" />
             <Label TextColor="Gray" Text="Source" FontSize="Small"  Margin="0,15,0,0"/>

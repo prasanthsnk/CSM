@@ -21,7 +21,7 @@
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="30*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image   Source="xamarin.png" Margin="0, 5, 0, 0"  VerticalOptions="Start"  HeightRequest="20"/>
+                                <Image   Source="motor.png" Margin="0, 5, 0, 0"  VerticalOptions="Start"  HeightRequest="20"/>
                                 <StackLayout Grid.Column="1"   VerticalOptions="Start" Spacing="0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -33,7 +33,7 @@
                                             <Label TextColor="Black" Text="{Binding Source}" FontAttributes="{Binding FontStyle}"  FontSize="Small" />
                                         </StackLayout>
                                         <Button Grid.Column="1"  BackgroundColor="Transparent" Command="{Binding Path=BindingContext.SaveCommand, Source = {x:Reference chatList}}" CommandParameter="{Binding}"
-                                                Image="save.png" WidthRequest="30" HeightRequest="30" VerticalOptions="EndAndExpand" IsVisible="{Binding IsSaved}"/>
+                                                Image="save.png" WidthRequest="48" HeightRequest="48" VerticalOptions="CenterAndExpand" IsVisible="{Binding IsSaved}"/>
                                     </Grid>
                                     <Label TextColor="Gray" Text="Message" FontSize="Micro" Margin="0,15,0,0"/>
                                     <Label TextColor="Black" Text="{Binding NotificationText}" FontAttributes="{Binding FontStyle}"  FontSize="Small" />

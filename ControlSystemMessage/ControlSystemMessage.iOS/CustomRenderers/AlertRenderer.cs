@@ -3,10 +3,10 @@ using ControlSystemMessage.iOS.CustomRenderers;
 using Foundation;
 using UIKit;
 
-[assembly: Xamarin.Forms.Dependency(typeof(AlertIOS))]
+[assembly: Xamarin.Forms.Dependency(typeof(AlertRenderer))]
 namespace ControlSystemMessage.iOS.CustomRenderers
 {
-    public class AlertIOS : IAlert
+    public class AlertRenderer : IAlert
     {
         const double LONG_DELAY = 3.5;
         const double SHORT_DELAY = 2.0;

@@ -4,12 +4,12 @@ using ControlSystemMessage.Views.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(CustomPicker), typeof(PickerRendererAndroid))]
+[assembly: ExportRenderer(typeof(CustomPicker), typeof(AndroidPickerRenderer))]
 namespace ControlSystemMessage.Droid.CustomRenderers
 {
-    public class PickerRendererAndroid : PickerRenderer
+    public class AndroidPickerRenderer : PickerRenderer
     {
-        public PickerRendererAndroid(Context context) : base(context)
+        public AndroidPickerRenderer(Context context) : base(context)
         {
 
         }
